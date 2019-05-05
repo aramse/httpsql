@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>httpsql</title>
+</head>
+<h2>Welcome to <i>httpsql</i></h2>
+<h4>Usage Guide</h4>
+<table border="1">
+<tr>
+  <th>Action</th>
+  <th>Command</th></tr>
+<tr>
+  <td>Create a <i>students</i> table</td>
+  <td><pre>curl -X POST -d '{"key": "id", "fields": {"id": "int", "first_name": "string", "last_name": "string", "grade": "int"}}' [[httpsql-host]]/tables/manage/students</pre></td>
+</tr><tr>
+  <td>Insert data into the <i>students</i> table</td>
+  <td><pre>curl -X POST -d '[{"id": 1, "first_name": "Rick", "last_name": "Sanchez", "grade": 10}, {"id": 2, "first_name": "Morty", "last_name": "Smith", "grade": 9}]' [[httpsql-host]]/tables/students</pre></td>
+</tr><tr>
+  <td>Get data from the <i>students</i> table</td>
+  <td><pre>curl [[httpsql-host]]/tables/students</pre></td>
+</tr><tr>
+  <td>Delete an entry from the <i>students</i> table</td>
+  <td><pre>curl -X DELETE '[[httpsql-host]]/tables/students?fName=id&fVal=2'</pre></td>
+</tr><tr>
+  <td>Delete the <i>students</i> table</td>
+  <td><pre>curl -X DELETE [[httpsql-host]]/tables/manage/students</pre></td>
+</tr>
+</table>
+</html>
