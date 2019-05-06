@@ -28,7 +28,7 @@ The following JSON `POST`ed to `/tables/manage/students`
   "key": "id"
 }
 ```
-would be translated into the following SQL to create the *students* table.
+would be translated into the following SQL and executed to create the *students* table.
 ```sql
 CREATE TABLE students(
   id INT PRIMARY KEY, 
