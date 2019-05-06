@@ -1,9 +1,8 @@
 ![httpsql](img/logo.png)
 
 ### Overview
-*httpsql* is a simple service that provides a RESTful interface for querying and managing data in a (SQL) database. 
-It works by providing an HTTP API that accepts JSON and translates it to SQL to run against a database.
-
+*httpsql* is an application that offers a RESTful interface for querying and managing data in a (SQL) database.
+It works by accepting JSON over HTTP and translating it to SQL to run against a database.
 ![httpsql Architecture](img/arch.png "httpsql Architecture")
 
 ### Benefits
