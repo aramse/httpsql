@@ -36,14 +36,14 @@ CREATE TABLE students(
   grade INT
 )
 ```
-The following `POST`ed to `/tables/students` would insert data into this table.
+The following `POST`ed to `/tables/students` would insert data into the table.
 ```json
 [
   {"id": 1, "name": "Rick Sanchez", "grade": 10}, 
   {"id": 2, "name": "Morty Smith", "grade": 9}
 ]
 ```
-A `GET` on `/tables/students` would return all entries in the students table (as JSON),
+A `GET` on `/tables/students` would return all entries in the table (as JSON),
 and lastly a `DELETE` on `/tables/manage/students` would delete the *students* table.
 
 For more example commands, see the [functional test](tests/func/run.sh) that exercises the API.
