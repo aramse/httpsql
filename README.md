@@ -113,7 +113,11 @@ that installs the related driver prior to building the container.
 
 ## Development
 
-*httpsql* is developed and tested using the following architecture.
+*httpsql* is developed and tested using the following architecture. It runs on Aramse's **f8** platform, which provides 
+it CI/CD, monitoring, and more for all branches out-of-the-box through a simple configuration file that describes this 
+architecture. If you're interested in a short demo of onboarding *httpsql* to f8, please contact <sales@aramse.io>.
+
+![httpsql Full Architecture](img/arch-full.png "httpsql Full Architecture")
 
 Name | Type | Purpose
 --- | --- | ---
@@ -124,8 +128,5 @@ db-ui | stateless component | provides a UI to view the contents of **db** (usin
 func | test | tests the functionality of **api**
 perf | test | tests the performance of **api**
 
-It's developed on Aramse's **f8** platform, which provides it CI/CD, monitoring, and more for all branches 
-out-of-the-box through a simple configuration file that describes the above architecture. If you're interested 
-in a short demo of onboarding *httpsql* to f8, please contact <sales@aramse.io>.
 
 
