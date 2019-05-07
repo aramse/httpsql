@@ -10,6 +10,11 @@ curl --fail -v -X POST -d '{"key": "id", "fields": {"id": "int", "first_name": "
 # make 2 entries into the 'students' table
 curl --fail -v -X POST -d '[{"id": 1, "first_name": "Rick", "last_name": "Sanchez", "grade": 10}, {"id": 2, "first_name": "Morty", "last_name": "Smith", "grade": 9}]' api/tables/students
 
+# read only one row
+expected_count=1
+actual_count=$(curl --fail "api/tables/students?first_name='Rick'&last_name='Sanchez'" | jq length)
+[ "$actual_count" == "$expected_count" ] || { echo "expected $expected_count records, found $actual_count" && exit 1; }
+
 # delete 1 entry from the 'students' table
 curl --fail -v -X DELETE 'api/tables/students?fName=id&fValue=2'
 
@@ -23,4 +28,5 @@ curl --fail -v -X DELETE api/tables/manage/students
 
 # test no_op
 [ "$(curl --fail api/tables/students?no_op=true)" == "SELECT * FROM students" ] || { echo "did not return expected SQL command for no_op" && exit 1; }
+
 

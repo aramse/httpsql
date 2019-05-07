@@ -66,6 +66,8 @@ class Database(object):
     'boolean': 'boolean'
   }
 
+  SPECIAL_QUERY_PARAMS = ['no_op']
+
   PROVIDER = None
   DEFAULT_PORT = None
 
@@ -145,11 +147,10 @@ class Database(object):
     return 'DROP TABLE ' + table_name
 
   def get_cmd_get_data(self, table_name):
-    # req = json.loads(web.data())
-    # mock: {'name': 'full-sleeve'}}
     sql = 'SELECT * FROM ' + table_name
-    # if len(req.get('conditions', {})) > 0:
-    #     sql += ' WHERE ' + ' AND '.join([k + ' = ' + ("'" + v + "'" if isinstance(v, str) else v) for k,v in req])
+    params = {k:v for k,v in web.input().items() if k not in self.SPECIAL_QUERY_PARAMS}
+    if len(params):
+        sql += ' WHERE ' + ' AND '.join([k + ' = ' + ("'" + v + "'" if isinstance(v, str) else v) for k,v in params.items()])
     return sql
 
   def get_cmd_insert_data(self, table_name, request_obj):
