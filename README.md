@@ -6,12 +6,12 @@ It works by accepting JSON over HTTP and translating it to SQL to run against a 
 ![httpsql Architecture](img/arch.png "httpsql Architecture")
 
 ### Benefits
-- Developers just interact with the more familiar and native HTTP and JSON, instead of SQL
 - Underlying database(s) is abstracted from clients so it can more easily be changed
 - Clients do not have to install and maintain libraries to interact with specific databases
 - Centralized control/visibility by handling all requests through a common API layer, including
   - monitoring of request metrics
   - authentication/authorization
+- Developers just interact with the more familiar and native HTTP and JSON, instead of SQL
 
 ## Usage
 
