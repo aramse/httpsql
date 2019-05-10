@@ -11,6 +11,7 @@ It works by accepting JSON over HTTP and translating it to SQL to run against a 
 - Centralized control/visibility by handling all requests through a common API layer, including
   - monitoring of request metrics
   - authentication/authorization
+- Developers just interact with the more familiar and native HTTP and JSON, instead of SQL
 
 ## Usage
 
