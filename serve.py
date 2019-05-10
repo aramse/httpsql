@@ -276,15 +276,13 @@ class TableManager:
     sql = DB.get_cmd_create_table(table, req)
     if check_no_op(web):
       return sql
-    DB.query(sql)
-    return ''
+    return '' if DB.query(sql) else web.badrequest()
 
   def DELETE(self, table):
     sql = DB.get_cmd_delete_table(table)
     if check_no_op(web):
       return sql
-    DB.query(sql)
-    return ''
+    return '' if DB.query(sql) else web.badrequest()
 
 
 class Table:
@@ -298,8 +296,7 @@ class Table:
     sql = DB.get_cmd_insert_data(table, req)
     if check_no_op(web):
       return sql
-    DB.query(sql)
-    return ''
+    return '' if DB.query(sql) else web.badrequest()
 
   def DELETE(self, table):
     params = web.input(fName=None, fValue=None)
@@ -310,8 +307,7 @@ class Table:
     sql = DB.get_cmd_delete_data(table, params.fName, params.fValue)
     if check_no_op(web):
       return sql
-    DB.query(sql)
-    return ''
+    return '' if DB.query(sql) else web.badrequest()
 
 
 class checkAlive:
