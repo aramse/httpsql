@@ -25,24 +25,6 @@ components:
           - '-c'
           - 'psql postgresql://postgres:postgres@db:5432 -c "create schema if not exists httpsql"'
   - type: stateless
-    name: db-ui
-    containers:
-      - image: 'sosedoff/pgweb:0.9.12'
-        readyCheck:
-          httpGet:
-            port: 8081
-            path: /httpsql/%(environment)s/db-ui/80
-        command:
-          - /bin/sh
-          - '-c'
-          - '/usr/bin/pgweb --bind=0.0.0.0 --listen=8081 --host=db --user=postgres --pass=postgres --ssl=disable --prefix=httpsql/%(environment)s/db-ui/80'
-    expose:
-      - servicePort: 80
-        containerPort: 8081
-        keep-prefix: true
-        accessible-from:
-          - f8-demo
-  - type: stateless
     name: api
     instances: 3
     autoscale:
@@ -62,6 +44,24 @@ components:
       - servicePort: 8000
         containerPort: 8000
         metricsPath: /  # this component serves metrics on port 8000, this tells f8 to request this path to collect them
+  - type: stateless
+    name: db-ui
+    containers:
+      - image: 'sosedoff/pgweb:0.9.12'
+        readyCheck:
+          httpGet:
+            port: 8081
+            path: /httpsql/%(environment)s/db-ui/80
+        command:
+          - /bin/sh
+          - '-c'
+          - '/usr/bin/pgweb --bind=0.0.0.0 --listen=8081 --host=db --user=postgres --pass=postgres --ssl=disable --prefix=httpsql/%(environment)s/db-ui/80'
+    expose:
+      - servicePort: 80
+        containerPort: 8081
+        keep-prefix: true
+        accessible-from:
+          - f8-demo
 tests:
   - name: func
     containers:
