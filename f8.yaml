@@ -65,5 +65,6 @@ tests:
     containers:
       - dir: ./tests/func
   - name: perf
+    instances: 3
     containers:
       - dir: ./tests/perf
