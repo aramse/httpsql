@@ -1,0 +1,70 @@
+general:
+  name: httpsql
+components:
+  - type: stateful
+    name: db
+    containers:
+      - image: 'postgres:9.6.14'
+        readyCheck:
+          command:
+            - /bin/sh
+            - '-c'
+            - pg_isready
+        envVars:
+          PGDATA: /var/lib/postgresql/pgdata
+    expose:
+      - servicePort: 5432
+        containerPort: 5432
+    volumeMountPath: /var/lib/postgresql
+  - type: init
+    name: db-init
+    containers:
+      - image: jbergknoff/postgresql-client
+        command:
+          - /bin/sh
+          - '-c'
+          - 'psql postgresql://postgres:postgres@db:5432 -c "create schema if not exists httpsql"'
+  - type: stateless
+    name: api
+    containers:
+      - dir: .
+        readyCheck:
+          httpGet:
+            port: 8080
+            path: /check/ready
+    expose:
+      - servicePort: 80
+        containerPort: 8080
+        external: true
+      - servicePort: 8000
+        containerPort: 8000
+        metricsPath: /
+    instances: 3
+    autoscale:
+      max_instances: 5
+      target_cpu_util: 80
+  - type: stateless
+    name: db-ui
+    containers:
+      - image: 'sosedoff/pgweb:0.9.12'
+        readyCheck:
+          httpGet:
+            port: 8081
+            path: /httpsql/%(environment)s/db-ui/80
+        command:
+          - /bin/sh
+          - '-c'
+          - '/usr/bin/pgweb --bind=0.0.0.0 --listen=8081 --host=db --user=postgres --pass=postgres --ssl=disable --prefix=httpsql/%(environment)s/db-ui/80'
+    expose:
+      - servicePort: 80
+        containerPort: 8081
+        external: true
+        keep-prefix: true
+tests:
+  - name: func
+    containers:
+      - dir: ./tests/func
+  - name: perf
+    containers:
+      - dir: ./tests/perf
+    instances: 3
