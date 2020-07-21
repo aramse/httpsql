@@ -39,7 +39,7 @@ components:
       - servicePort: 8000
         containerPort: 8000
         metricsPath: /
-    instances: 2
+    instances: 3
     autoscale:
       max_instances: 5
       target_cpu_util: 80
