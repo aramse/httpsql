@@ -312,7 +312,7 @@ class Table:
 
 class checkAlive:
   def GET(self):
-    return '' if DB.check_health() else web.internalerror()
+    return ''
 
 
 class checkReady:
