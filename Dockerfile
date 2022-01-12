@@ -6,7 +6,7 @@ RUN pip install prometheus_client
 
 # databases
 RUN pip install psycopg2
-#RUN pip install cassandra-driver
+# RUN pip install cassandra-driver
 
 WORKDIR /app
 COPY . .
