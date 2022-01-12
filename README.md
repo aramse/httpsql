@@ -83,7 +83,7 @@ docker inspect httpsql-db | grep IPAddress
 
 Run the `api` container with the following, replacing `[db-ip]` with the observed IP address of the database.
 ```sh
-docker run -e "DB_HOST=[db-ip]" -p 8080:8080 httpsql-api
+docker run -e "DB_HOST=[db-ip]" -p 8080:80 httpsql-api
 ```
 
 If successful, the *httpsql* API will become available on <http://localhost:8080>.
