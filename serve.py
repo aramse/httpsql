@@ -368,4 +368,4 @@ if __name__ == '__main__':
     prometheus_client.start_http_server(8000)
 
   # start http server
-  web.httpserver.runsimple(app.wsgifunc(), ('0.0.0.0', 8080))
+  web.httpserver.runsimple(app.wsgifunc(), ('0.0.0.0', 80))
