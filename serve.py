@@ -103,7 +103,7 @@ class Database(object):
 
   def query(self, query, read=False):
     debug('querying: ' + str(self))
-    debug('with sql: ' + sql)
+    debug('with sql: ' + query)
     return self.exec_query(query, read=read)
 
   def check_health(self):
