@@ -15,7 +15,7 @@ components:
             path: /
         envVars:
           DB_PROVIDER: cassandra
-          DEBUG: 'true'
+          DEBUG: 'on'
     expose:
       - servicePort: 80
         containerPort: 80
