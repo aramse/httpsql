@@ -11,6 +11,10 @@ import abc
 import traceback
 import jsonschema
 
+if os.environ.get('DB_PROVIDER', None) == 'cassandra':
+    from cassandra.cluster import Cluster
+    from cassandra.auth import PlainTextAuthProvider
+
 CHECK_ALIVE_PATH = '/check/alive'
 CHECK_READY_PATH = '/check/ready'
 
@@ -236,8 +240,6 @@ class CassandraDB(Database):
 
   def __init__(self, host, port=DEFAULT_PORT, user=None, pword=None):
     Database.__init__(self, host, port, user, pword)
-    from cassandra.cluster import Cluster
-    from cassandra.auth import PlainTextAuthProvider
 
   def get_connection(self):
     auth = PlainTextAuthProvider(username=self.user, password=self.pword) if self.user else None
