@@ -354,10 +354,10 @@ if __name__ == '__main__':
       DB = DB_PROVIDER_CLASS(DB_HOST, user=DB_USER, pword=DB_PASS)
     else:
       DB = DB_PROVIDER_CLASS(DB_HOST)
-  if not DB.connect():
-    fatal('unable to connect to the database')
   if not DB.initialize():
     fatal('unable to initialize the database')
+  if not DB.connect():
+    fatal('unable to connect to the database')
 
   # map uris to classes
   urls = (
