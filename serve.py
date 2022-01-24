@@ -260,7 +260,7 @@ class CassandraDB(Database):
       # debug(rows)
       return rows
     else:
-      if query.startswith('INSERT INTO'):
+      if query[:6] in ('INSERT', 'UPDATE', 'DELETE'):
         batch = BatchStatement()
         for q in query.split(';'):
           batch.add(SimpleStatement(q))
