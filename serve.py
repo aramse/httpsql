@@ -261,7 +261,7 @@ class CassandraDB(Database):
 
   def initialize(self):
     session = self.get_cluster().connect()
-    session.execute('CREATE KEYSPACE IF NOT EXISTS ' + self.KEYSPACE + ' WITH REPLICATION = { "class": "SimpleStrategy", "replication_factor": 3 }')
+    session.execute("CREATE KEYSPACE IF NOT EXISTS " + self.KEYSPACE + " WITH REPLICATION = { 'class': 'SimpleStrategy', 'replication_factor': 3 };")
     return True
 
   def check_connectivity(self):
