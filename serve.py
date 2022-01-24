@@ -102,7 +102,8 @@ class Database(object):
       return False
 
   def query(self, query, read=False):
-    debug('querying ' + str(self))
+    debug('querying: ' + str(self))
+    debug('with sql: ' + sql)
     return self.exec_query(query, read=read)
 
   def check_health(self):
@@ -292,7 +293,6 @@ class TableManager:
     sql = DB.get_cmd_create_table(table, req)
     if check_no_op(web):
       return sql
-    debug('executing sql: ' + sql)
     return '' if DB.query(sql) else web.badrequest()
 
   def DELETE(self, table):
