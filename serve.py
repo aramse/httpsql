@@ -140,14 +140,9 @@ class Database(object):
       error('failed schema validation: ' + str(e))
       return web.badrequest(message=str(e))
     # mock example for shirts table: {"key": "name", "fields": {"name": "string", "price": "int", "size": "string"}}
-    sql = 'CREATE TABLE ' + table_name + '('
-    for field, data_type in request_obj['fields'].items():
-      sql += field + ' ' + self.FIELD_MAPPING[data_type]
-      if field == request_obj['key']:
-        sql += ' PRIMARY KEY'
-      sql += ','
-    # omit trailing comma, add close paren
-    sql = sql[:-1] + ')'
+    sql = 'CREATE TABLE ' + table_name + ' ('
+    sql += ', '.join([ field + ' ' + self.FIELD_MAPPING[data_type] + (' PRIMARY KEY' if field == request.get('key', None) else '') for field, data_type in request_obj['fields'].items()])
+    sql += ')'
     return sql
 
   def get_cmd_delete_table(self, table_name):
@@ -264,6 +259,7 @@ class CassandraDB(Database):
       return rows
     else:
       self.connection.execute(query)
+      return True
 
   def initialize(self):
     session = self.get_cluster().connect()
