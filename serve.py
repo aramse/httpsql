@@ -141,7 +141,7 @@ class Database(object):
       return web.badrequest(message=str(e))
     # mock example for shirts table: {"key": "name", "fields": {"name": "string", "price": "int", "size": "string"}}
     sql = 'CREATE TABLE ' + table_name + ' ('
-    sql += ', '.join([ field + ' ' + self.FIELD_MAPPING[data_type] + (' PRIMARY KEY' if field == request.get('key', None) else '') for field, data_type in request_obj['fields'].items()])
+    sql += ', '.join([ field + ' ' + self.FIELD_MAPPING[data_type] + (' PRIMARY KEY' if field == request_obj.get('key', None) else '') for field, data_type in request_obj['fields'].items()])
     sql += ')'
     return sql
 
