@@ -12,8 +12,8 @@ import traceback
 import jsonschema
 
 if os.environ.get('DB_PROVIDER', None) == 'cassandra':
-    from cassandra.cluster import Cluster
-    from cassandra.auth import PlainTextAuthProvider
+  from cassandra.cluster import Cluster
+  from cassandra.auth import PlainTextAuthProvider
 
 CHECK_ALIVE_PATH = '/check/alive'
 CHECK_READY_PATH = '/check/ready'
