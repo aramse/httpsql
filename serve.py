@@ -260,10 +260,13 @@ class CassandraDB(Database):
       # debug(rows)
       return rows
     else:
-      batch = BatchStatement()
-      for q in query.split(';'):
-        batch.add(SimpleStatement(q))
-      self.connection.execute(batch)
+      if query.startswith('INSERT INTO'):
+        batch = BatchStatement()
+        for q in query.split(';'):
+          batch.add(SimpleStatement(q))
+        self.connection.execute(batch)
+      else:
+        self.connection.execute(query)
       return True
 
   def initialize(self):
