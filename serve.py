@@ -14,7 +14,6 @@ import jsonschema
 if os.environ.get('DB_PROVIDER', None) == 'cassandra':
   from cassandra.cluster import Cluster
   from cassandra.auth import PlainTextAuthProvider
-  from cassandra.query import SimpleStatement, BatchStatement
 
 CHECK_ALIVE_PATH = '/check/alive'
 CHECK_READY_PATH = '/check/ready'
@@ -260,13 +259,8 @@ class CassandraDB(Database):
       # debug(rows)
       return rows
     else:
-      if query[:6] in ('INSERT', 'UPDATE', 'DELETE'):
-        batch = BatchStatement()
-        for q in query.split(';'):
-          batch.add(SimpleStatement(q))
-        self.connection.execute(batch)
-      else:
-        self.connection.execute(query)
+      for q in query.split(';'):
+        self.connection.execute(q)
       return True
 
   def initialize(self):
