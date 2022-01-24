@@ -263,7 +263,8 @@ class CassandraDB(Database):
   def initialize(self):
     auth = PlainTextAuthProvider(username=self.user, password=self.pword) if self.user else None
     session = Cluster(self.host.split(','), auth_provider=auth).connect()
-    return session.execute('CREATE KEYSPACE IF NOT EXISTS ' + self.KEYSPACE + ' WITH REPLICATION = { "class": "SimpleStrategy", "replication_factor": 3 }')
+    session.execute('CREATE KEYSPACE IF NOT EXISTS ' + self.KEYSPACE + ' WITH REPLICATION = { "class": "SimpleStrategy", "replication_factor": 3 }')
+    return True
 
   def check_connectivity(self):
     self.query('SELECT now() FROM system.local')
