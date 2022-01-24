@@ -47,8 +47,8 @@ def error(msg):
 
 
 def debug(msg):
-#  if DEBUG:
-  log(msg, 'DEBUG')
+  if DEBUG:
+    log(msg, 'DEBUG')
 
 
 def fatal(msg):
@@ -290,6 +290,7 @@ class TableManager:
     sql = DB.get_cmd_create_table(table, req)
     if check_no_op(web):
       return sql
+    debug('executing sql: ' + sql)
     return '' if DB.query(sql) else web.badrequest()
 
   def DELETE(self, table):
@@ -337,7 +338,7 @@ class checkReady:
 if __name__ == '__main__':
 
   # get config from env vars
-  DEBUG = os.environ.get('DEBUG', 'off') == 'on'
+  DEBUG = os.environ.get('DEBUG', 'false') == 'true'
   DB_PROVIDER = os.environ.get('DB_PROVIDER', 'postgres')
   DB_HOST = os.environ.get('DB_HOST', 'db')
   DB_PORT = os.environ.get('DB_PORT', None)
