@@ -114,6 +114,9 @@ class Database(object):
       error('health check failed: ' + str(e))
       return False
 
+  def initialize(self):
+    return True
+
   def get_cmd_create_table(self, table_name, request_obj):
     # validate with schema
     debug('validating ' + json.dumps(request_obj) + ' against schema')
@@ -237,13 +240,14 @@ class PostgresDB(Database):
 class CassandraDB(Database):
   PROVIDER = 'cassandra'
   DEFAULT_PORT = 9042
+  KEYSPACE = 'httpsql'
 
   def __init__(self, host, port=DEFAULT_PORT, user=None, pword=None):
     Database.__init__(self, host, port, user, pword)
 
   def get_connection(self):
     auth = PlainTextAuthProvider(username=self.user, password=self.pword) if self.user else None
-    return Cluster(self.host.split(','), auth_provider=auth).connect()
+    return Cluster(self.host.split(','), auth_provider=auth).connect(self.KEYSPACE)
 
   def exec_query(self, query, read=False):
     if read:
@@ -255,6 +259,9 @@ class CassandraDB(Database):
       return rows
     else:
       self.connection.execute(query)
+
+  def initialize(self):
+    return self.query('CREATE KEYSPACE IF NOT EXISTS ' + self.KEYSPACE + ' WITH REPLICATION = { "class": "SimpleStrategy", "replication_factor": 3 }')
 
   def check_connectivity(self):
     self.query('SELECT now() FROM system.local')
@@ -349,6 +356,8 @@ if __name__ == '__main__':
       DB = DB_PROVIDER_CLASS(DB_HOST)
   if not DB.connect():
     fatal('unable to connect to the database')
+  if not DB.initialize():
+    fatal('unable to initialize the database')
 
   # map uris to classes
   urls = (
