@@ -47,8 +47,8 @@ def error(msg):
 
 
 def debug(msg):
-  if DEBUG:
-    log(msg, 'DEBUG')
+#  if DEBUG:
+  log(msg, 'DEBUG')
 
 
 def fatal(msg):
