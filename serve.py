@@ -242,6 +242,12 @@ class CassandraDB(Database):
   DEFAULT_PORT = 9042
   KEYSPACE = 'httpsql'
 
+  FIELD_MAPPING = {
+    'string': 'text',
+    'int': 'int',
+    'boolean': 'boolean'
+  }
+
   def __init__(self, host, port=DEFAULT_PORT, user=None, pword=None):
     Database.__init__(self, host, port, user, pword)
 
