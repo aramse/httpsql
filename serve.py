@@ -337,7 +337,7 @@ class checkReady:
 if __name__ == '__main__':
 
   # get config from env vars
-  DEBUG = os.environ.get('DEBUG', False)
+  DEBUG = os.environ.get('DEBUG', 'false') == 'true'
   DB_PROVIDER = os.environ.get('DB_PROVIDER', 'postgres')
   DB_HOST = os.environ.get('DB_HOST', 'db')
   DB_PORT = os.environ.get('DB_PORT', None)
