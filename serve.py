@@ -246,8 +246,7 @@ class CassandraDB(Database):
     Database.__init__(self, host, port, user, pword)
 
   def get_connection(self):
-    auth = PlainTextAuthProvider(username=self.user, password=self.pword) if self.user else None
-    return Cluster(self.host.split(','), auth_provider=auth).connect(self.KEYSPACE)
+    return self.get_cluster().connect(self.KEYSPACE)
 
   def exec_query(self, query, read=False):
     if read:
@@ -261,13 +260,16 @@ class CassandraDB(Database):
       self.connection.execute(query)
 
   def initialize(self):
-    auth = PlainTextAuthProvider(username=self.user, password=self.pword) if self.user else None
-    session = Cluster(self.host.split(','), auth_provider=auth).connect()
+    session = self.get_cluster().connect()
     session.execute('CREATE KEYSPACE IF NOT EXISTS ' + self.KEYSPACE + ' WITH REPLICATION = { "class": "SimpleStrategy", "replication_factor": 3 }')
     return True
 
   def check_connectivity(self):
     self.query('SELECT now() FROM system.local')
+
+  def get_cluster(self):
+    auth = PlainTextAuthProvider(username=self.user, password=self.pword) if self.user else None
+    return Cluster(self.host.split(','), auth_provider=auth)
 
 
 # Welcome page
