@@ -101,6 +101,13 @@ class Database(object):
       error('unable to connect: ' + str(e))
       return False
 
+  def request(self, web, query, read=False):
+    try:
+      res = self.query(query, read=read)
+    except Exception as e:
+      return web.badrequest(e.message)
+    return res if read else ''
+
   def query(self, query, read=False):
     debug('querying: ' + str(self))
     debug('with sql: ' + query)
@@ -296,27 +303,39 @@ class TableManager:
     sql = DB.get_cmd_create_table(table, req)
     if check_no_op(web):
       return sql
-    return '' if DB.query(sql) else web.badrequest()
+    try:
+      DB.request(web, sql)
+    except Exception as e:
+      web.internalerror(e.message)
 
   def DELETE(self, table):
     sql = DB.get_cmd_delete_table(table)
     if check_no_op(web):
       return sql
-    return '' if DB.query(sql) else web.badrequest()
+    try:
+      DB.request(web, sql)
+    except Exception as e:
+      web.internalerror(e.message)
 
 
 class Table:
 
   def GET(self, table):
     sql = DB.get_cmd_get_data(table)
-    return sql if check_no_op(web) else DB.query(sql, read=True)
+    try:
+      return sql if check_no_op(web) else DB.request(web, sql, read=True)
+    except Exception as e:
+      web.internalerror(e.message)
 
   def POST(self, table):
     req = json.loads(web.data())
     sql = DB.get_cmd_insert_data(table, req)
     if check_no_op(web):
       return sql
-    return '' if DB.query(sql) else web.badrequest()
+    try:
+      DB.request(web, sql)
+    except Exception as e:
+      web.internalerror(e.message)
 
   def DELETE(self, table):
     params = web.input(fName=None, fValue=None)
@@ -327,7 +346,10 @@ class Table:
     sql = DB.get_cmd_delete_data(table, params.fName, params.fValue)
     if check_no_op(web):
       return sql
-    return '' if DB.query(sql) else web.badrequest()
+    try:
+      DB.request(web, sql)
+    except Exception as e:
+      web.internalerror(e.message)
 
 
 class checkAlive:
