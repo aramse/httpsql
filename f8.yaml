@@ -1,5 +1,8 @@
 general:
   name: httpsql
+volumes:
+  - name: cassandra
+    path: config/cassandra.yaml
 components:
   - type: template
     template: cassandra
@@ -14,6 +17,9 @@ components:
             path: /
         envVars:
           DB_PROVIDER: cassandra
+        volumeMounts:
+          - volume: cassandra
+            mountPath: /etc/cassandra/cassandra.yaml
     expose:
       - servicePort: 80
         containerPort: 80
