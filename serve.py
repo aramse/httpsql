@@ -261,11 +261,9 @@ class CassandraDB(Database):
 
   def exec_query(self, query, read=False):
     if read:
-      future = self.connection.execute_async(query)
-      rows = future.result()
-      rows = json.dumps(rows if rows else [])
-      # debug('result:')
-      # debug(rows)
+      #future = self.connection.execute_async(query)
+      #rows = future.result()
+      rows = json.dumps(self.connection.execute(query))
       return rows
     else:
       for q in query.strip().split(';'):
