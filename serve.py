@@ -263,7 +263,7 @@ class CassandraDB(Database):
     if read:
       future = self.connection.execute_async(query)
       rows = future.result()
-      rows = json.dumps(rows)
+      rows = json.dumps(rows if rows else [])
       # debug('result:')
       # debug(rows)
       return rows
