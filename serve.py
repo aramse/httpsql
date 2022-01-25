@@ -105,6 +105,8 @@ class Database(object):
     try:
       res = self.query(query, read=read)
     except Exception as e:
+      traceback.print_exc()
+      error('error running query: ' + query)
       return web.badrequest(e.message)
     return res if read else ''
 
