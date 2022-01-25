@@ -112,7 +112,7 @@ class Database(object):
 
   def query(self, query, read=False):
     debug('querying: ' + str(self))
-    debug('with sql: ' + query)
+    info('running query: ' + query)
     return self.exec_query(query, read=read)
 
   def check_health(self):
@@ -261,10 +261,13 @@ class CassandraDB(Database):
 
   def exec_query(self, query, read=False):
     if read:
+      res = []
       #future = self.connection.execute_async(query)
       #rows = future.result()
-      rows = json.dumps(self.connection.execute(query))
-      return rows
+      rows = self.connection.execute(query)
+      for row in rows:
+        res.append(row._asdict())
+      return json.dumps(res)
     else:
       for q in query.strip().split(';'):
         if q:
