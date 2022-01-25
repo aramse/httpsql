@@ -338,12 +338,12 @@ class Table:
       web.internalerror(e.message)
 
   def DELETE(self, table):
-    params = web.input(fName=None, fValue=None)
-    if not params.fName or not params.fValue:
-      msg = 'must provide fName and fValue, corresponding to the field name and value to use in the WHERE clause of the DELETE statement'
+    params = web.input(field=None, value=None)
+    if not params.field or not params.value:
+      msg = 'must provide parameters `field` and `value`, corresponding to the field name and value to use in the WHERE clause of the DELETE statement'
       error(msg)
       return web.badrequest(message=msg)
-    sql = DB.get_cmd_delete_data(table, params.fName, params.fValue)
+    sql = DB.get_cmd_delete_data(table, params.field, params.value)
     if check_no_op(web):
       return sql
     try:
