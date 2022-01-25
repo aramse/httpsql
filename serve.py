@@ -259,7 +259,8 @@ class CassandraDB(Database):
       # debug(rows)
       return rows
     else:
-      for q in query.split(';'):
+      for q in query.strip().split(';'):
+        debug('running query: ' + q)
         self.connection.execute(q)
       return True
 
