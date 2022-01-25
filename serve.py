@@ -260,8 +260,9 @@ class CassandraDB(Database):
       return rows
     else:
       for q in query.strip().split(';'):
-        debug('running query: ' + q)
-        self.connection.execute(q)
+        if q:
+          debug('running query: ' + q)
+          self.connection.execute(q)
       return True
 
   def initialize(self):
