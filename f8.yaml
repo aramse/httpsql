@@ -32,3 +32,4 @@ tests:
   - name: perf
     containers:
       - dir: ./tests/perf
+    instances: 2
