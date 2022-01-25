@@ -13,11 +13,11 @@ curl --fail -v -X POST -d '[{"last_name": "Sanchez", "first_name": "Rick", "grad
 
 # read only one row
 expected_count=1
-actual_count=$(curl --fail "api/tables/students?last_name=Sanchez" | jq length)
+actual_count=$(curl --fail "api/tables/students?last_name='Sanchez'" | jq length)
 [ "$actual_count" == "$expected_count" ] || { echo "expected $expected_count records, found $actual_count" && exit 1; }
 
 # delete 1 entry from the 'students' table
-curl --fail -v -X DELETE "api/tables/students?field=last_name&value=Hoffman"
+curl --fail -v -X DELETE "api/tables/students?field='last_name'&value='Hoffman'"
 
 # make sure there are 2 entries in the 'students' table
 expected_count=2
