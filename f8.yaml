@@ -18,9 +18,9 @@ components:
           httpGet:
             port: 80
             path: /
-        envVars:
-          DB_PROVIDER: cassandra
-          DB_HOST: cass
+        #envVars:
+          #DB_PROVIDER: cassandra
+          #DB_HOST: cass
     expose:
       - servicePort: 80
         containerPort: 80
