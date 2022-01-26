@@ -357,6 +357,9 @@ class Table:
 
 class checkAlive:
   def GET(self):
+    if not DB.check_health():
+      DB.connect()
+      return web.internalerror()
     return ''
 
 
