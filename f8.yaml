@@ -1,12 +1,14 @@
 general:
   name: httpsql
 volumes:
-  - name: cassandra
-    path: config/cassandra.yaml
+  - name: postgres-conf
+    path: config/postgres.conf
 components:
   - type: template
-    template: cassandra
+    template: postgres
     name: db
+    vars:
+      CONFIG: postgres-conf
   - type: stateless
     name: api
     containers:
@@ -15,11 +17,6 @@ components:
           httpGet:
             port: 80
             path: /
-        envVars:
-          DB_PROVIDER: cassandra
-        volumeMounts:
-          - volume: cassandra
-            mountPath: /etc/cassandra/cassandra.yaml
     expose:
       - servicePort: 80
         containerPort: 80
