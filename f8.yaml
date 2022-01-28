@@ -4,7 +4,8 @@ components:
   - type: template
     template: postgres
     name: db
-    vars: {}
+    vars:
+      CONFIG: postgres-conf
   - type: stateless
     name: api
     containers:
@@ -39,3 +40,6 @@ tests:
     containers:
       - dir: ./tests/perf
     instances: 3
+volumes:
+  - name: postgres-conf
+    path: config/postgres.conf
