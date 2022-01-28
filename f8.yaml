@@ -17,6 +17,7 @@ components:
       - servicePort: 80
         containerPort: 80
         external: true
+    instances: 3
 tests:
   - name: func
     containers:
