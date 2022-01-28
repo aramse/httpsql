@@ -6,6 +6,10 @@ components:
     name: db
     vars:
       CONFIG: postgres-conf
+  - type: template
+    template: cassandra
+    name: cass
+    vars: {}
   - type: stateless
     name: api
     containers:
@@ -23,6 +27,9 @@ components:
           httpGet:
             port: 80
             path: /check/alive
+        envVars:
+          DB_PROVIDER: cassandra
+          DB_HOST: cass
     expose:
       - servicePort: 80
         containerPort: 80
