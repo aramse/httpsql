@@ -12,7 +12,16 @@ components:
         readyCheck:
           httpGet:
             port: 80
-            path: /
+            path: /check/ready
+        resources:
+          cpu:
+            min: 0.09
+          memory:
+            min: 128
+        aliveCheck:
+          httpGet:
+            port: 80
+            path: /check/alive
     expose:
       - servicePort: 80
         containerPort: 80
@@ -25,3 +34,4 @@ tests:
   - name: perf
     containers:
       - dir: ./tests/perf
+    instances: 3
