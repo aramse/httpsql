@@ -9,6 +9,11 @@ components:
     name: api
     containers:
       - dir: ./
+        resources:
+          cpu:
+            min: 0.1
+          memory:
+            min: 128
         readyCheck:
           httpGet:
             port: 80
@@ -17,15 +22,14 @@ components:
           httpGet:
             port: 80
             path: /check/alive
-        resources:
-          cpu:
-            min: 0.1
-          memory:
-            min: 128
     expose:
       - servicePort: 80
         containerPort: 80
         external: true
+      - servicePort: 8000
+        containerPort: 8000
+        external: false
+        metricsPath: /metrics
     instances: 3
 tests:
   - name: func
