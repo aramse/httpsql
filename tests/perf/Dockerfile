@@ -1,14 +1,10 @@
-FROM centos:7
+FROM ubuntu
 
-# install epel
-RUN yum install -y wget
-RUN yum install -y epel-release
-#RUN wget http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-10.noarch.rpm && rpm -ivh epel-release-7-10.noarch.rpm
+# install libs
+RUN apt-get update -y && apt-get install -y curl jq
 
-# install jq
-RUN yum install -y jq
-
+# copy test script
 COPY run.sh /
 
+# set command to run test script
 CMD bash /run.sh
-
