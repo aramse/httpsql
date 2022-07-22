@@ -1,0 +1,27 @@
+general:
+  name: httpsql
+components:
+  - type: template
+    template: postgres
+    name: db
+    vars: {}
+  - type: stateless
+    name: api
+    containers:
+      - dir: ./
+        readyCheck:
+          httpGet:
+            port: 80
+            path: /
+    expose:
+      - servicePort: 80
+        containerPort: 80
+        external: false
+    instances: 3
+tests:
+  - name: func
+    containers:
+      - dir: ./tests/func
+  - name: perf
+    containers:
+      - dir: ./tests/perf
