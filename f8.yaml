@@ -16,7 +16,7 @@ components:
     expose:
       - servicePort: 80
         containerPort: 80
-        external: false
+        external: true
     instances: 3
 tests:
   - name: func
