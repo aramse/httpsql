@@ -1,0 +1,40 @@
+general:
+  name: httpsql
+components:
+  - type: template
+    template: postgres
+    name: db
+    vars: {}
+  - type: stateless
+    name: api
+    containers:
+      - dir: ./
+        readyCheck:
+          httpGet:
+            port: 80
+            path: /check/ready
+        aliveCheck:
+          httpGet:
+            port: 80
+            path: /check/alive
+        resources:
+          cpu:
+            min: 0.1
+          memory:
+            min: 128
+    expose:
+      - servicePort: 80
+        containerPort: 80
+        external: true
+    instances: 3
+    autoscale:
+      max_instances: 5
+      target_cpu_util: 80
+tests:
+  - name: func
+    containers:
+      - dir: ./tests/func
+  - name: perf
+    containers:
+      - dir: ./tests/perf
+    instances: 3
