@@ -12,7 +12,7 @@ components:
         readyCheck:
           httpGet:
             port: 80
-            path: /
+            path: /check/ready
     expose:
       - servicePort: 80
         containerPort: 80
