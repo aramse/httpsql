@@ -26,7 +26,7 @@ pipeline {
         script {
           mergedBranch = getMergedBranch(this)
           if (env.REG_USER != "") { 
-            docker.withRegistry(env.REG_AUTH_URL, env.REG_CREDS_ID) {
+            docker.withRegistry(env.REG_AUTH_URL) {
               sh env.BUILD_CMD
             }
           } else {
