@@ -26,7 +26,7 @@ pipeline {
         script {
           mergedBranch = getMergedBranch(this)
           if (env.REG_USER != "") { 
-            docker.withRegistry(env.REG_AUTH_URL) {
+            docker.withRegistry(env.REG_AUTH_URL, 'f8-dev1-xyz') {
               sh env.BUILD_CMD
             }
           } else {
